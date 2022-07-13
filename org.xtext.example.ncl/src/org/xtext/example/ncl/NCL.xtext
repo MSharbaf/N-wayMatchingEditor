@@ -1,0 +1,80 @@
+grammar org.xtext.example.ncl.NCL with org.eclipse.ocl.xtext.essentialocl.EssentialOCL //with org.eclipse.xtext.common.Terminals
+
+import "http://www.eclipse.org/emf/2002/Ecore" as ecore
+import "http://www.eclipse.org/ocl/2015/Pivot" as pivot
+import "http://www.eclipse.org/ocl/2015/BaseCS" as base
+import "http://www.eclipse.org/ocl/2015/EssentialOCLCS" as essentialocl
+
+generate nCL "http://www.xtext.org/example/ncl/NCL"
+
+TopLevelCP:
+	'module' name=Identifier '{'
+		(ownedImports+=ImportCP)+
+		('rule' UnrestrictedName ownedHomocoms+=HomocomCP)*
+		('rule' UnrestrictedName ownedHetecoms+=HetecomCP)*
+	'}'
+;
+
+
+ImportCP returns base::ImportCS:
+	('import') (name=Identifier ':')? ownedPathName=URIPathNameCS (isAll?='::*')?  
+;
+
+
+HomocomCP:
+	'matchHomo' ownedMetaModels+=metaModelTypeCS 
+	('extends' UnrestrictedName (',' UnrestrictedName)*)?
+	'{'
+		'compareModels' ':' (ownedStatements+=HomoStatementCS)+
+	'}'
+;
+
+
+metaModelTypeCS:
+	name=Identifier ':' UnrestrictedName
+;
+
+
+HomoStatementCS:
+	('not')? (('or'|'and')? ownedConditions+=HomoConditionCS)+
+;
+
+
+HomoConditionCS:
+	('isValid'	'(' (ownedElementA=FQN) ('>'|'<'|'='|'<>'|'!'|'>='|'=<'|'IN'|'NotIN') (ownedElementB=FQN) ')' )
+		|
+	(('isEqual' | 'isTrue' |'isFalse' | 'isEmpty' | 'isContain' | 'isEquivalent') '(' (ownedElement+=FQN) '::' (ownedElement+=FQN) ("." (ownedElement+=FQN) ('(' ')')?)* ')')
+;
+
+
+HetecomCP:
+	'matchHete' ownedModels+=metaModelTypeCS 
+	'with' ownedModels+=metaModelTypeCS (',' ownedModels+=metaModelTypeCS)*
+	('extends' UnrestrictedName (',' UnrestrictedName)*)?
+	'{'
+		'compareModels' ':' (ownedStatements+=HeteStatementCS)+
+	'}'
+;
+
+HeteStatementCS:
+	('not')? (('or'|'and')? ownedConditions+=HeteConditionCS)+
+;
+
+
+HeteConditionCS:
+	('isValid'	'(' (ownedElementA=FQN) ('>'|'<'|'='|'<>'|'!'|'>='|'=<'|'IN'|'NotIN') (ownedElementB=FQN) ')' )
+		|
+	(('isEqual' | 'isTrue' |'isFalse' | 'isEmpty' | 'isContain' | 'isEquivalent') '(' (ownedElement+=FQN) '::' (ownedElement+=FQN) ("." (ownedElement+=FQN) ('(' ')')?)* (',' (ownedElement+=FQN) '::' (ownedElement+=FQN) ("." (ownedElement+=FQN) ('(' ')')?)*)* ')')
+;
+
+
+FQN:
+	(UnrestrictedName|ID) (("."|"->") (UnrestrictedName|ID) ('(')? (')')? )*
+;
+
+terminal STRING: 
+    '"' ( '\\'('b'|'t'|'n'|'f'|'r'|'u'|'"'|"'"|'\\') | !('\\'|'"') )* '"'
+;
+
+
+	

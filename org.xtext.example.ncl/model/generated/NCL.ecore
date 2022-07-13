@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="nCL" nsURI="http://www.xtext.org/example/ncl/NCL" nsPrefix="nCL">
+  <eClassifiers xsi:type="ecore:EClass" name="TopLevelCP">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ownedImports" upperBound="-1"
+        eType="ecore:EClass platform:/resource/org.eclipse.ocl.xtext.base/model/BaseCS.ecore#//ImportCS"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ownedHomocoms" upperBound="-1"
+        eType="#//HomocomCP" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ownedHetecoms" upperBound="-1"
+        eType="#//HetecomCP" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="HomocomCP">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ownedMetaModels" upperBound="-1"
+        eType="#//metaModelTypeCS" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ownedStatements" upperBound="-1"
+        eType="#//HomoStatementCS" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="metaModelTypeCS">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="HomoStatementCS">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ownedConditions" upperBound="-1"
+        eType="#//HomoConditionCS" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="HomoConditionCS">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ownedElementA" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ownedElementB" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ownedElement" unique="false"
+        upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="HetecomCP">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ownedModels" upperBound="-1"
+        eType="#//metaModelTypeCS" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ownedStatements" upperBound="-1"
+        eType="#//HeteStatementCS" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="HeteStatementCS">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ownedConditions" upperBound="-1"
+        eType="#//HeteConditionCS" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="HeteConditionCS">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ownedElementA" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ownedElementB" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ownedElement" unique="false"
+        upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+</ecore:EPackage>
